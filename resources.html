@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduLibrary | Resources</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<script>
+  function searchBooks() {
+    var input = document.getElementById("searchInput").value.toLowerCase();
+    var products = document.getElementsByClassName("product");
+
+    for (var i = 0; i < products.length; i++) {
+      var title = products[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+      products[i].style.display =
+        title.indexOf(input) > -1 ? "block" : "none";
+    }
+  }
+
+  function sortBooks() {
+    var list = document.getElementById("productList");
+    var products = Array.prototype.slice.call(
+      list.getElementsByClassName("product")
+    );
+    var sortValue = document.getElementById("sortSelect").value;
+
+    products.sort(function (a, b) {
+      var A = a.getElementsByTagName("h3")[0].innerText.toLowerCase();
+      var B = b.getElementsByTagName("h3")[0].innerText.toLowerCase();
+      return sortValue === "az" ? A.localeCompare(B) : B.localeCompare(A);
+    });
+
+    products.forEach(function (p) {
+      list.appendChild(p);
+    });
+  }
+</script>
+
+<script src="script.js"></script>
+
+<body>
+  <header>
+    <h1>📚 EduLibrary</h1>
+    <nav>
+    <a href="home.html" class="active">Home</a>
+    <a href="resources.html">Resources</a>
+    <a href="readinglist.html">Reading List</a>
+    <a href="admin.html" class="active">Admin</a>
+    <a href="profile.html">Profile</a>
+    <a href="login.html">Login</a>
+    </nav>
+  </header>
+  
+  <div class="controls">
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search books..."
+    onkeyup="searchBooks()"
+  >
+
+  <select id="sortSelect" onchange="sortBooks()">
+    <option value="">Sort By</option>
+    <option value="az">Name A–Z</option>
+    <option value="za">Name Z–A</option>
+  </select>
+</div>
+<!-- ADMIN ADDED BOOKS -->
+<section class="products" id="adminProducts"></section>
+  <section class="products" id="productList">
+    <script>
+  const books = JSON.parse(localStorage.getItem("books")) || [];
+  const list = document.getElementById("productList");
+
+  books.forEach(book => {
+    const div = document.createElement("div");
+    div.className = "product";
+
+    div.innerHTML = `
+      <img src="${book.img}">
+      <h3>${book.title}</h3>
+      <p>${book.desc}</p>
+
+      <button onclick="addToList('${book.title}')">
+        Add to Reading List
+      </button>
+
+      <a href="${book.pdf}" download class="download-btn">
+        Download PDF
+      </a>
+    `;
+
+    list.prepend(div);
+  });
+</script>
+
+  <div class="product">
+  <img src="java_book.jpg" alt="Java Programming Book">
+  <h3>Java Programming Guide</h3>
+  <p>Learn Java from basics to advanced — including OOP, GUI, and data structures.</p>
+
+  <button onclick="addToList('Java Programming Guide')">
+    Add to Reading List
+  </button>
+
+  <a href="pdf/java.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Java Programming Book')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+
+  <div class="product">
+    <img src="webdev_book.jpg" alt="Fundamentals of Web Development">
+    <h3>Fundamentals of Web Development</h3>
+    <p>A complete guide to HTML, CSS, JavaScript, and web design principles — perfect for beginners and students.</p>
+    <button onclick="addToList('Fundamentals of Web Development')">Add to Reading List</button>
+    <a href="pdf/webdev_book.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Fundamentals of Web Development')" class="feedback-btn">
+  Give Feedback
+</button>
+
+  </div>
+
+  <div class="product">
+    <img src="discrete_math_book.jpg" alt="Discrete Mathematics Book">
+    <h3>Discrete Mathematics</h3>
+    <p>Explore logic, combinatorics, graph theory, and proofs — essential foundations for computer science.</p>
+    <button onclick="addToList('Discrete Mathematics')">Add to Reading List</button>
+    <a href="pdf/discrete_math_book.pdf" download class="download-btn">
+    Download PDF </a>
+    <button onclick="openFeedback('Discrete Mathematics')" class="feedback-btn">
+  Give Feedback
+</button>
+
+  </div>
+
+  <div class="product">
+  <img src="artifical intelligence.jpg" alt="Artificial Intelligence Book">
+  <h3>Artificial Intelligence</h3>
+  <p>Explore intelligent agents, machine learning, reasoning, and problem-solving — core concepts behind smart systems.</p>
+  <button onclick="addToList('Artificial Intelligence')">Add to Reading List</button>
+  <a href="pdf/artifical intelligence.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Artificial Intelligence Book')" class="feedback-btn">
+  Give Feedback
+</button>
+
+  </div>
+
+  <div class="product">
+  <img src="c.jpg" alt="C Programming Book">
+  <h3>C Programming</h3>
+  <p>Explore variables, control structures, functions, and pointers — the foundation of efficient programming.</p>
+  <button onclick="addToList('C Programming')">Add to Reading List</button>
+  <a href="pdf/c.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('C Programming')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="c++.jpg" alt="C++ Programming Book">
+  <h3>C++ Programming</h3>
+  <p>Explore object-oriented concepts, classes, inheritance, and templates — powerful tools for modern software development.</p>
+  <button onclick="addToList('C++ Programming')">Add to Reading List</button>
+  <a href="pdf/c++.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('C++ Programming')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="computer network.jpg" alt="Computer Networks Book">
+  <h3>Computer Networks</h3>
+  <p>Explore data communication, network models, protocols, and security — the backbone of modern connectivity.</p>
+  <button onclick="addToList('Computer Networks')">Add to Reading List</button>
+  <a href="pdf/computer network.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Computer Networks')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="data base.jpg" alt="Database Management Systems Book">
+  <h3>Database Management Systems</h3>
+  <p>Explore data models, SQL, normalization, and transactions — essential concepts for managing data efficiently.</p>
+  <button onclick="addToList('Database Management Systems')">Add to Reading List</button>
+  <a href="pdf/data base.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Database Management Systems')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="data structures.jpg" alt="Data Structures Book">
+  <h3>Data Structures</h3>
+  <p>Explore arrays, linked lists, stacks, queues, and trees — fundamental tools for efficient problem solving.</p>
+  <button onclick="addToList('Data Structures')">Add to Reading List</button>
+  <a href="pdf/data structures.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Data Structures')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="deep learning.jpg" alt="Deep Learning Book">
+  <h3>Deep Learning</h3>
+  <p>Explore neural networks, deep architectures, and training techniques — driving advances in AI applications.</p>
+  <button onclick="addToList('Deep Learning')">Add to Reading List</button>
+  <a href="pdf/deep learning.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Deep Learning')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="html and css.jpg" alt="HTML and CSS Book">
+  <h3>HTML & CSS</h3>
+  <p>Explore web structure, styling, layouts, and responsiveness — the foundation of modern web design.</p>
+  <button onclick="addToList('HTML & CSS')">Add to Reading List</button>
+  <a href="pdf/html and css.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('HTML & CSS')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="javascript.jpg" alt="JavaScript Book">
+  <h3>JavaScript</h3>
+  <p>Explore variables, functions, events, and DOM manipulation — powering interactive web applications.</p>
+  <button onclick="addToList('JavaScript')">Add to Reading List</button>
+  <a href="pdf/javascript.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('JavaScript')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="linear algebra.jpg" alt="Linear Algebra Book">
+  <h3>Linear Algebra</h3>
+  <p>Explore vectors, matrices, linear transformations, and eigenvalues — essential for math and AI foundations.</p>
+  <button onclick="addToList('Linear Algebra')">Add to Reading List</button>
+  <a href="pdf/linear algebra.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Linear Algebra')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="machine learning.jpg" alt="Machine Learning Book">
+  <h3>Machine Learning</h3>
+  <p>Explore supervised learning, unsupervised models, and algorithms — enabling systems to learn from data.</p>
+  <button onclick="addToList('Machine Learning')">Add to Reading List</button>
+  <a href="pdf/machine learning.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Machine Learning')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="operating system.jpg" alt="Operating Systems Book">
+  <h3>Operating Systems</h3>
+  <p>Explore processes, memory management, scheduling, and file systems — the core of computer operations.</p>
+  <button onclick="addToList('Operating Systems')">Add to Reading List</button>
+  <a href="pdf/operating system.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Operating Systems')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="python.jpg" alt="Python Programming Book">
+  <h3>Python Programming</h3>
+  <p>Explore syntax, libraries, data handling, and automation — a versatile language for modern applications.</p>
+  <button onclick="addToList('Python Programming')">Add to Reading List</button>
+  <a href="pdf/python.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Python Programming')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+<div class="product">
+  <img src="web.jpg" alt="Web Development Book">
+  <h3>Web Development</h3>
+  <p>Learn how to build modern websites using HTML, CSS, and JavaScript with responsive design techniques.</p>
+  <button onclick="addToList('Web Development')">Add to Reading List</button>
+  <a href="pdf/web.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Web Development')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+  
+
+<div class="product">
+  <img src="algorithms.jpg" alt="Algorithms Book">
+  <h3>Algorithms</h3>
+  <p>Understand searching, sorting, recursion, dynamic programming, and algorithm efficiency for problem solving.</p>
+  <button onclick="addToList('Algorithms')">Add to Reading List</button>
+  <a href="pdf/algorithms.pdf" download class="download-btn">
+    Download PDF
+  </a>
+  <button onclick="openFeedback('Algorithms')" class="feedback-btn">
+  Give Feedback
+</button>
+
+</div>
+
+
+
+</section>
+
+
+  <footer>
+    <p>© 2025 EduLibrary. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const adminBooks = JSON.parse(localStorage.getItem("adminBooks")) || [];
+    const adminBox = document.getElementById("adminProducts");
+
+    if (!adminBox) return;
+
+    adminBooks.forEach(book => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${book.img}" alt="${book.title}">
+        <h3>${book.title}</h3>
+        <p>${book.desc}</p>
+        <button onclick="addToList('${book.title}')">
+          Add to Reading List
+        </button>
+      `;
+      adminBox.appendChild(div);
+    });
+  });
+</script>
+
+<!-- Feedback Modal -->
+<div id="feedbackModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+  <div style="background:white; width:300px; margin:100px auto; padding:20px; border-radius:10px;">
+    <h3>Give Feedback</h3>
+    <p id="feedbackBook"></p>
+
+    <textarea id="feedbackText" placeholder="Write your feedback..." style="width:100%; height:80px;"></textarea>
+
+    <br><br>
+    <button onclick="submitFeedback()">Submit</button>
+    <button onclick="closeFeedback()">Cancel</button>
+  </div>
+</div>
+
+</body>
+</html>

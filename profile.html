@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduLibrary | Profile</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>📚 EduLibrary</h1>
+    <nav>
+    <a href="home.html" class="active">Home</a>
+    <a href="resources.html">Resources</a>
+    <a href="readinglist.html">Reading List</a>
+    <a href="admin.html" class="active">Admin</a>
+    <a href="profile.html">Profile</a>
+    <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <!-- PROFILE SECTION -->
+  <section class="form-section">
+    <h2>Your Profile</h2>
+
+    <!-- PROFILE IMAGE -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <img
+        id="profileImg"
+        src="https://via.placeholder.com/120"
+        alt="Profile Image"
+        style="width:120px;height:120px;border-radius:50%;object-fit:cover;"
+      >
+      <br><br>
+      <input type="file" accept="image/*" onchange="uploadImage(event)">
+    </div>
+
+    <!-- USER DETAILS -->
+    <p><strong>Name:</strong> <span id="profileName"></span></p>
+    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+
+    <!-- EDIT NAME -->
+    <label>Edit Name</label>
+    <input type="text" id="editName" placeholder="Enter new name">
+    <button class="btn" onclick="updateName()">Update Name</button>
+
+    <hr style="margin:20px 0;">
+
+    <!-- CHANGE PASSWORD -->
+    <label>New Password</label>
+    <input type="password" id="newPassword" placeholder="Enter new password">
+
+    <label>Confirm Password</label>
+    <input type="password" id="confirmNewPassword" placeholder="Confirm password">
+
+    <button class="btn" onclick="changePassword()">Change Password</button>
+
+    <hr style="margin:20px 0;">
+
+    <!-- LOGOUT -->
+    <button class="btn" style="background:#ff4d4d;" onclick="logout()">Logout</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 EduLibrary. All Rights Reserved.</p>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    // Load user data
+    const name = localStorage.getItem("userName");
+    const email = localStorage.getItem("userEmail");
+    const savedImage = localStorage.getItem("profileImage");
+
+    if (!name || !email) {
+      alert("Please login first!");
+      window.location.href = "login.html";
+    }
+
+    document.getElementById("profileName").innerText = name;
+    document.getElementById("profileEmail").innerText = email;
+    document.getElementById("editName").value = name;
+
+    if (savedImage) {
+      document.getElementById("profileImg").src = savedImage;
+    }
+
+    // Update Name
+    function updateName() {
+      const newName = document.getElementById("editName").value.trim();
+      if (newName === "") {
+        alert("Name cannot be empty");
+        return;
+      }
+      localStorage.setItem("userName", newName);
+      document.getElementById("profileName").innerText = newName;
+      alert("Name updated successfully!");
+    }
+
+    // Change Password
+    function changePassword() {
+      const newPass = document.getElementById("newPassword").value;
+      const confirmPass = document.getElementById("confirmNewPassword").value;
+
+      if (newPass.length < 6) {
+        alert("Password must be at least 6 characters");
+        return;
+      }
+      if (newPass !== confirmPass) {
+        alert("Passwords do not match");
+        return;
+      }
+
+      localStorage.setItem("userPassword", newPass);
+      alert("Password changed successfully!");
+      document.getElementById("newPassword").value = "";
+      document.getElementById("confirmNewPassword").value = "";
+    }
+
+    // Upload Profile Image
+    function uploadImage(event) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        localStorage.setItem("profileImage", reader.result);
+        document.getElementById("profileImg").src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Logout
+    function logout() {
+      localStorage.clear();
+      alert("Logged out successfully!");
+      window.location.href = "login.html";
+    }
+  </script>
+<script src="script.js"></script>
+
+</body>
+</html>

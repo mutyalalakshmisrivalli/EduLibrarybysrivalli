@@ -127,7 +127,7 @@ function validateLogin() {
 
   if (email === storedEmail && password === storedPassword) {
     alert("✅ Login successful! Welcome back.");
-    window.location.href = "home.html";
+    window.location.href = "index.html";
     return false;
   } else {
     alert("❌ Invalid email or password.");
